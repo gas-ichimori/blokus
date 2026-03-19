@@ -539,6 +539,15 @@
     flex: 1;
   }
   .end-exit-btn:hover { background: var(--border); color: var(--text); transform: translateY(-2px); }
+  #setup-footer {
+    position: absolute;
+    bottom: 1.2rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text2);
+    opacity: 0.6;
+  }
 
   /* Ruby (furigana) style */
   ruby { ruby-align: center; }
@@ -742,6 +751,7 @@
     </div>
     <button class="start-btn" id="start-btn">Start Game</button>
   </div>
+  <div id="setup-footer">© 2026 One Forest LLC. All rights reserved.</div>
 </div>
 
 <!-- GAME SCREEN -->
@@ -777,7 +787,7 @@
   <div id="game-content">
     <!-- Left: pieces -->
     <div id="piece-panel">
-      <div id="piece-panel-header"><ruby>Pieces<rt>ピース</rt></ruby></div>
+      <div id="piece-panel-header">Pieces</div>
       <div id="pieces-grid"></div>
       <div id="piece-panel-label"><ruby>Pieces<rt>ピース</rt></ruby></div>
       <div id="piece-panel-divider"></div>
@@ -833,6 +843,7 @@
     <div class="end-scores" id="end-scores"></div>
     <div class="end-btns">
       <button class="play-again-btn" id="play-again-btn">もう一度</button>
+      <button class="end-exit-btn" id="end-back-btn">Back</button>
       <button class="end-exit-btn" id="end-exit-btn">終了</button>
     </div>
   </div>
@@ -1344,14 +1355,10 @@ function handleBoardClick(e){
   if(selectedPieceIdx<0||!selectedCells) return;
   const [r,c]=getBoardCell(e.touches?{touches:[{clientX:e.changedTouches[0].clientX,clientY:e.changedTouches[0].clientY}]}:e);
   if(r<0||r>=BOARD_SIZE||c<0||c>=BOARD_SIZE) return;
-  if(isValidPlacement(gameState.board,pidx,selectedCells,r,c,player.isFirst)){
-    placePiece(gameState.board,pidx,selectedCells,r,c);
-    player.pieces[selectedPieceIdx].used=true;
-    player.pieces[selectedPieceIdx].cells=selectedCells;
-    player.isFirst=false;
-    selectedPieceIdx=-1; selectedCells=null;
-    afterMove();
-  }
+  // クリックは位置決めのみ。配置はPlaceボタンで行う
+  hoverR=r;hoverC=c;
+  renderBoard();
+  updatePlaceBtn();
 }
 
 function updatePlaceBtn(){
@@ -1459,6 +1466,13 @@ document.getElementById('play-again-btn').addEventListener('click',()=>{
   document.getElementById('game-screen').style.display='none';
   document.getElementById('setup-screen').style.display='flex';
   unlockOrientation();
+});
+document.getElementById('end-back-btn').addEventListener('click',()=>{
+  document.getElementById('end-screen').style.display='none';
+  document.getElementById('game-screen').style.display='none';
+  document.getElementById('setup-screen').style.display='flex';
+  unlockOrientation();
+  gameState=null;
 });
 document.getElementById('end-exit-btn').addEventListener('click',()=>{
   window.close();

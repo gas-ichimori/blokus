@@ -1,4 +1,4 @@
-const CACHE_NAME = 'blokus-v7';
+const CACHE_NAME = 'blokus-v9';
 const FILES_TO_CACHE = [
   './blokus_pwa.html',
   './manifest.json',
