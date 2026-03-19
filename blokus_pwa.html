@@ -1312,20 +1312,8 @@ document.addEventListener('touchend',e=>{
   if(!isOverBoard(t.clientX,t.clientY)) return;
   const [r,c]=getBoardCellFromXY(t.clientX,t.clientY);
   hoverR=r;hoverC=c;
-  const pidx=gameState.currentPlayer,player=gameState.players[pidx];
-  if(selectedPieceIdx>=0&&selectedCells&&r>=0&&r<BOARD_SIZE&&c>=0&&c<BOARD_SIZE&&
-     isValidPlacement(gameState.board,pidx,selectedCells,r,c,player.isFirst)){
-    placePiece(gameState.board,pidx,selectedCells,r,c);
-    player.pieces[selectedPieceIdx].used=true;
-    player.pieces[selectedPieceIdx].cells=selectedCells;
-    player.isFirst=false;
-    selectedPieceIdx=-1;selectedCells=null;hoverR=-1;hoverC=-1;
-    document.getElementById('btn-place').disabled=true;
-    afterMove();
-  } else {
-    renderBoard();
-    updatePlaceBtn();
-  }
+  renderBoard();
+  updatePlaceBtn();
 },{capture:true});
 
 boardCanvas.addEventListener('mousemove',e=>{
