@@ -1297,7 +1297,7 @@ document.addEventListener('touchmove',e=>{
   }
   if(!t||!isOverBoard(t.clientX,t.clientY)) return;
   const [r,c]=getBoardCellFromXY(t.clientX,t.clientY);
-  if(r!==hoverR||c!==hoverC){hoverR=r;hoverC=c;renderBoard();}
+  if(r!==hoverR||c!==hoverC){hoverR=r;hoverC=c;renderBoard();if(selectedCells&&navigator.vibrate)navigator.vibrate(8);}
 },{passive:false,capture:true});
 
 document.addEventListener('touchend',e=>{
@@ -1319,7 +1319,7 @@ document.addEventListener('touchend',e=>{
 boardCanvas.addEventListener('mousemove',e=>{
   if(!gameState||gameState.gameOver) return;
   const [r,c]=getBoardCell(e);
-  if(r!==hoverR||c!==hoverC){hoverR=r;hoverC=c;renderBoard();}
+  if(r!==hoverR||c!==hoverC){hoverR=r;hoverC=c;renderBoard();if(selectedCells&&navigator.vibrate)navigator.vibrate(8);}
 });
 boardCanvas.addEventListener('mouseleave',()=>{hoverR=-1;hoverC=-1;renderBoard();});
 boardCanvas.addEventListener('click',e=>handleBoardClick(e));
@@ -1333,7 +1333,7 @@ boardCanvas.addEventListener('touchend',e=>{
 boardCanvas.addEventListener('touchmove',e=>{
   e.preventDefault();
   const [r,c]=getBoardCell(e);
-  if(r!==hoverR||c!==hoverC){hoverR=r;hoverC=c;renderBoard();}
+  if(r!==hoverR||c!==hoverC){hoverR=r;hoverC=c;renderBoard();if(selectedCells&&navigator.vibrate)navigator.vibrate(8);}
 },{passive:false});
 
 function handleBoardClick(e){
